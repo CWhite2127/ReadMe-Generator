@@ -1,77 +1,79 @@
 // TODO: Include packages needed for this application
 const fs = require('fs');
 const inquirer = require('inquirer')
+const generateMarkdown = require('./utils/generateMarkdown')
+const renderLicenseBadge = require('./utils/generateMarkdown')
 // TODO: Create an array of questions for user input
-inquirer
-    .prompt([
-        {
-            type: 'input',
-            message: "What is your project title?",
-            name: 'title',
-        },
-        {
-            type: 'input',
-            message: "Please provide a description of your project",
-            name: 'description',
-        },
-        {
-            type: 'input',
-            message: "What are the installation instructions for your project?",
-            name: 'installation',
-        },
-        {
-            type: 'input',
-            message: "What usage information would you like to provide?",
-            name: 'usage',
-        },
-        {
-            type: 'input',
-            message: "what contribution guidelines would you like to provide?",
-            name: 'contribution',
-        },
-        {
-            type: 'input',
-            message: 'What test instructions would you like to provide?',
-            name: 'test'
-        },
-        {
-            type: 'list',
-            message: "Please select a license",
-            name: 'license',
-            choices: ['test', 'test', 'test'],
-        },
-        {
-            type: 'input',
-            message: "please provide a URL for your github",
-            name: 'github',
-        },
-        {
-            type: 'input', 
-            message: "Please provide your email address",
-            name: 'email',
-        },
-    ])
+
+
+const userPrompt = () => {
+    inquirer
+        .prompt([
+            {
+                type: 'input',
+                message: "What is your project title?",
+                name: 'title',
+            },
+            {
+                type: 'input',
+                message: "Please provide a description of your project",
+                name: 'description',
+            },
+            {
+                type: 'input',
+                message: "What are the installation instructions for your project?",
+                name: 'installation',
+            },
+            {
+                type: 'input',
+                message: "What usage information would you like to provide?",
+                name: 'usage',
+            },
+            {
+                type: 'input',
+                message: "what contribution guidelines would you like to provide?",
+                name: 'contribution',
+            },
+            {
+                type: 'input',
+                message: 'What test instructions would you like to provide?',
+                name: 'test'
+            },
+            {
+                type: 'list',
+                message: "Please select a license",
+                name: 'license',
+                choices: ['MIT', 'Apache', 'GNU GPL v3', 'BSD 3-Clause', 'Mozilla', 'None'],
+            },
+            {
+                type: 'input',
+                message: "please provide a URL for your github",
+                name: 'github',
+            },
+            {
+                type: 'input', 
+                message: "Please provide your email address",
+                name: 'email',
+            },
+        ])
     .then((answers) => {
-        console.log(answers);
+        const readMe = generateMarkdown(answers);
+        
 
+    fs.writeFile('README.md', readMe, (err) =>
+        err ? console.log(err) : console.log('Successfully created your README file')
+    )
     });
-
-// TODO: Create a function to write README file
-function writeToFile(fileName, data) {}
+};
 
 // TODO: Create a function to initialize app
-function init() {}
+function init() {
+userPrompt();
+}
 
 // Function call to initialize app
 init();
 
-// GIVEN a command-line application that accepts user input
-// WHEN I am prompted for information about my application repository
-// THEN a high-quality, professional README.md is generated with the title of my project and sections entitled Description, Table of Contents, Installation, Usage, License, Contributing, Tests, and Questions
-// WHEN I enter my project title
-// THEN this is displayed as the title of the README
-// WHEN I enter a description, installation instructions, usage information, contribution guidelines, and test instructions
-// THEN this information is added to the sections of the README entitled Description, Installation, Usage, Contributing, and Tests
 // WHEN I choose a license for my application from a list of options
 // THEN a badge for that license is added near the top of the README and a notice is added to the section of the README entitled License that explains which license the application is covered under
 // WHEN I enter my GitHub username
