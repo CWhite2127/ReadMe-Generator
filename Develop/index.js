@@ -2,7 +2,7 @@
 const fs = require('fs');
 const inquirer = require('inquirer')
 const generateMarkdown = require('./utils/generateMarkdown')
-const renderLicenseBadge = require('./utils/generateMarkdown')
+
 // TODO: Create an array of questions for user input
 
 
@@ -43,7 +43,7 @@ const userPrompt = () => {
                 type: 'list',
                 message: "Please select a license",
                 name: 'license',
-                choices: ['MIT', 'Apache', 'GNU GPL v3', 'BSD 3-Clause', 'Mozilla', 'None'],
+                choices: ['MIT', 'Apache', 'GNU-GPL-v3', 'BSD-3-Clause', 'Mozilla', 'None'],
             },
             {
                 type: 'input',
@@ -58,7 +58,7 @@ const userPrompt = () => {
         ])
     .then((answers) => {
         const readMe = generateMarkdown(answers);
-        
+
 
     fs.writeFile('README.md', readMe, (err) =>
         err ? console.log(err) : console.log('Successfully created your README file')
